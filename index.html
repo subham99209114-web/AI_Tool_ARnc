@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101426">
+<title>AI Tool.ARnc</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2e;--card:#151f35;--text:#edf2ff;--muted:#9aa8c4;--line:rgba(255,255,255,.09);--accent:#8b7cff;--accent2:#28d7c5;--shadow:0 18px 50px rgba(0,0,0,.22)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;transition:background .25s,color .25s}
+body[data-theme="ocean"]{--bg:#071923;--panel:#0d2938;--card:#103448;--accent:#35b9e9;--accent2:#47e0c1}
+body[data-theme="sunset"]{--bg:#1c1018;--panel:#2b1725;--card:#39202e;--accent:#ff8a65;--accent2:#ffc45e}
+body[data-theme="forest"]{--bg:#0b1b15;--panel:#12291f;--card:#193629;--accent:#69d69a;--accent2:#c5e86c}
+body[data-theme="light"]{--bg:#f3f5fb;--panel:#fff;--card:#fff;--text:#172033;--muted:#66728a;--line:rgba(20,35,60,.12);--accent:#6558e8;--accent2:#0da995;--shadow:0 14px 35px rgba(35,50,90,.09)}
+body[data-theme="rose"]{--bg:#1d101b;--panel:#2d1929;--card:#3a2035;--accent:#f078b5;--accent2:#ffbd75}
+body[data-theme="midnight"]{--bg:#07080d;--panel:#11131c;--card:#191c29;--accent:#a5a9ff;--accent2:#73e0ff}
+body[data-theme="coffee"]{--bg:#1b1510;--panel:#2a2119;--card:#36291e;--accent:#d9a66f;--accent2:#a9c58b}
+a{color:inherit;text-decoration:none}.wrap{max-width:1240px;margin:auto;padding:0 22px}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:11px;font-size:20px;font-weight:850;letter-spacing:-.6px}.logo{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:19px;box-shadow:0 8px 25px color-mix(in srgb,var(--accent) 30%,transparent)}
+.navright{display:flex;align-items:center;gap:10px}.themebox,.select,.btn,.searchbox{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:12px}.themebox{padding:8px 11px;display:flex;gap:8px;align-items:center}.themebox select{background:transparent;border:0;color:var(--text);outline:0;max-width:135px}.themebox option,.select option{background:var(--panel);color:var(--text)}
+.btn{padding:10px 14px;cursor:pointer;font-weight:700;transition:.2s}.btn:hover{border-color:var(--accent);transform:translateY(-1px)}.btn.primary{background:linear-gradient(120deg,var(--accent),var(--accent2));border:0;color:white}
+.hero{padding:64px 0 35px;text-align:center}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--accent2);font-weight:800;font-size:12px;letter-spacing:1.7px;text-transform:uppercase}.hero h1{font-size:clamp(36px,6vw,66px);line-height:1.04;letter-spacing:-2.6px;margin:17px auto 14px;max-width:850px}.gradient{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);font-size:17px;max-width:650px;margin:0 auto 25px}
+.searchbox{max-width:670px;margin:auto;display:flex;align-items:center;padding:7px 9px 7px 16px;gap:10px;box-shadow:var(--shadow)}.searchbox input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);font-size:15px;padding:11px 0}.searchbox input::placeholder{color:var(--muted)}.searchbox .btn{padding:11px 17px}
+.stats{display:flex;justify-content:center;gap:35px;margin-top:25px;color:var(--muted);font-size:13px}.stats b{color:var(--text);font-size:17px;margin-right:5px}
+main{padding:20px 0 65px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:14px 0 19px;flex-wrap:wrap}.toolbar h2{font-size:21px;margin:0;letter-spacing:-.5px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:25px}.chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:8px 13px;border-radius:999px;cursor:pointer;font-weight:650;font-size:13px;transition:.2s}.chip:hover,.chip.active{background:var(--accent);border-color:var(--accent);color:white}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.tool{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;min-height:190px;display:flex;flex-direction:column;position:relative;transition:.22s;box-shadow:0 5px 20px rgba(0,0,0,.04)}.tool:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--accent) 65%,var(--line));box-shadow:var(--shadow)}
+.tooltop{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.toolicon{width:43px;height:43px;border-radius:13px;background:color-mix(in srgb,var(--accent) 16%,var(--panel));display:grid;place-items:center;font-size:22px}.fav{border:0;background:transparent;color:var(--muted);font-size:21px;cursor:pointer;padding:2px}.fav.on{color:#ffbd4a}.tool h3{margin:0 0 5px;font-size:16px}.tool p{margin:0;color:var(--muted);font-size:13px;line-height:1.5;flex:1}.toolbottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:16px}.tag{font-size:11px;color:var(--accent2);background:color-mix(in srgb,var(--accent2) 10%,transparent);padding:5px 8px;border-radius:7px;font-weight:750}.visit{font-size:12px;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:5px}.visit:hover{color:var(--accent2)}
+.empty{grid-column:1/-1;text-align:center;padding:55px 20px;background:var(--panel);border:1px dashed var(--line);border-radius:18px;color:var(--muted)}.empty strong{display:block;color:var(--text);font-size:18px;margin-bottom:5px}
+.note{color:var(--muted);font-size:12px;margin-top:23px;text-align:center}.footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}.footrow{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.wrap{padding:0 15px}.nav{height:67px}.brand{font-size:17px}.themebox{padding:7px}.themebox select{max-width:105px}.navright .btn{display:none}.hero{padding:48px 0 28px}.hero h1{letter-spacing:-1.5px}.stats{gap:15px;flex-wrap:wrap}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tool{padding:13px;min-height:200px}.tool h3{font-size:14px}.tool p{font-size:12px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.themebox span{display:none}.searchbox .btn{padding:10px 12px}}
+
+/* About and Privacy controls; additions are isolated from the existing layout. */
+.info-actions{position:static;display:flex;gap:9px;margin-left:auto;align-items:center}
+.info-actions button{border:0;background:transparent;color:var(--muted);padding:0;font:inherit;font-weight:700;cursor:pointer;box-shadow:none;border-radius:0;transition:color .2s}.info-actions button:hover{color:var(--muted);text-decoration:underline}
+.info-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px}
+.info-overlay.open{display:flex}
+.info-panel{width:min(900px,100%);height:min(88vh,850px);background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.info-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 20px;border-bottom:1px solid var(--line)}
+.info-head h2{margin:0;font-size:21px}.info-close{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:8px 12px;font-size:18px;cursor:pointer}
+.info-content{padding:20px;overflow:auto;line-height:1.75;color:var(--text)}.info-content h3{color:var(--accent2);margin:24px 0 8px}.info-content p{margin:0 0 14px;color:var(--muted)}
+.tool{cursor:pointer}.tool:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:720px){.info-actions{position:static;margin-left:auto}.info-actions button{padding:0;font-size:inherit}.info-panel{height:90vh}.info-content{padding:16px}}
+
+</style></head>
+<body data-theme="violet">
+<header><div class="wrap nav">
+<a class="brand" href="#"><span class="logo">✦</span><span>AI <span class="gradient">HUB</span></span></a>
+<div class="navright"><label class="themebox"><span>🎨</span><select id="themeSelect" aria-label="Choose theme">
+<option value="violet">Violet Glow</option><option value="ocean">Ocean Blue</option><option value="sunset">Sunset</option><option value="forest">Forest</option><option value="light">Light</option><option value="rose">Rose</option><option value="midnight">Midnight</option><option value="coffee">Coffee</option>
+</select></label><button class="btn" id="favoritesBtn">★ Favorites</button></div>
+</div></header>
+<section class="hero"><div class="wrap">
+<div class="eyebrow">✦ YOUR AI TOOLKIT · ONE DESTINATION</div>
+<h1>Discover the <span class="gradient">AI tools</span><br>that move you forward.</h1>
+<p>Chat, create, design, code, research aur productivity — apne kaam ke liye best AI websites ek hi jagah explore karein.</p>
+<div class="searchbox"><span>⌕</span><input id="searchInput" type="search" placeholder="Search AI tools, categories..." autocomplete="off"><button class="btn primary" id="searchBtn">Search</button></div>
+<div class="stats"><span><b id="toolCount">0</b> Curated tools</span><span><b>10+</b> Categories</span><span><b>8</b> Themes</span></div>
+</div></section>
+<main class="wrap">
+<div class="toolbar"><h2 id="sectionTitle">Explore AI tools</h2><select class="select" id="sortSelect" style="padding:9px 12px;outline:0"><option value="az">Name: A to Z</option><option value="za">Name: Z to A</option></select></div>
+<div class="filters" id="filters"></div>
+<div class="grid" id="toolGrid"></div>
+<p class="note">Official websites ke links diye gaye hain. Tools ki availability, features aur pricing badal sakti hai; use karne se pehle provider ki website check karein.</p>
+</main>
+<footer class="footer"><div class="wrap footrow"><span>© 2026 AI Tool.ARnc · Your AI discovery space</span><div class="info-actions" aria-label="Website information">
+ <button type="button" id="aboutOpen">About</button>
+ <button type="button" id="privacyOpen">Privacy</button>
+</div></div></footer>
+<div class="info-overlay" id="infoOverlay" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+ <section class="info-panel">
+  <div class="info-head"><h2 id="infoTitle">About</h2><button class="info-close" id="infoClose" type="button" aria-label="Close">✕</button></div>
+  <div class="info-content" id="infoContent"></div>
+ </section>
+</div>
+<script>
+const tools = [
+["ChatGPT","Chat & Assistants","General AI assistant for writing, ideas, coding and everyday tasks.","https://chatgpt.com/","🤖"],
+["Claude","Chat & Assistants","AI assistant for thoughtful writing, analysis and coding.","https://claude.ai/","✳️"],
+["Google Gemini","Chat & Assistants","Google's multimodal AI assistant.","https://gemini.google.com/","💎"],
+["Microsoft Copilot","Chat & Assistants","AI assistant for answers, work and creativity.","https://copilot.microsoft.com/","🪟"],
+["DeepSeek","Chat & Assistants","AI chat and reasoning models.","https://www.deepseek.com/","🐋"],
+["Grok","Chat & Assistants","AI assistant by xAI.","https://grok.com/","✕"],
+["Meta AI","Chat & Assistants","Meta's AI assistant for chat and creation.","https://www.meta.ai/","🦙"],
+["Poe","Chat & Assistants","Explore and chat with bots from multiple AI models.","https://poe.com/","💬"],
+["Perplexity","Research & Search","AI answer engine with web sources and citations.","https://www.perplexity.ai/","🔎"],
+["NotebookLM","Research & Search","Research and summaries grounded in your sources.","https://notebooklm.google/","📚"],
+["Elicit","Research & Search","AI research assistant for scientific literature.","https://elicit.com/","🧪"],
+["Consensus","Research & Search","Find evidence and answers from research papers.","https://consensus.app/","🎓"],
+["You.com","Research & Search","AI search and productivity platform.","https://you.com/","🌐"],
+["Photoroom","Image & Design","AI product photos, background removal and editing.","https://www.photoroom.com/","📸"],
+["Midjourney","Image & Design","Create artistic images from text prompts.","https://www.midjourney.com/","🎨"],
+["Adobe Firefly","Image & Design","Generative AI for images and creative design.","https://firefly.adobe.com/","🔥"],
+["Leonardo AI","Image & Design","Generate creative visuals and game assets.","https://leonardo.ai/","🖼️"],
+["Ideogram","Image & Design","AI image generation with strong text rendering.","https://ideogram.ai/","🔤"],
+["Canva AI","Image & Design","Design presentations, graphics and visual content.","https://www.canva.com/","🪄"],
+["Recraft","Image & Design","Create vector graphics, icons and brand visuals.","https://www.recraft.ai/","✏️"],
+["Fotor","Image & Design","AI photo editing, enhancement and image creation.","https://www.fotor.com/","🌈"],
+["Runway","Video Creation","AI video generation and creative editing tools.","https://runwayml.com/","🎬"],
+["Kling AI","Video Creation","Generate videos from text and images.","https://klingai.com/","🎞️"],
+["Pika","Video Creation","Create and transform short AI videos.","https://pika.art/","⚡"],
+["Luma AI","Video Creation","AI video and 3D creative tools.","https://lumalabs.ai/","🌌"],
+["HeyGen","Video Creation","AI avatar videos, translation and voice.","https://www.heygen.com/","🧑‍💻"],
+["InVideo AI","Video Creation","Turn prompts and scripts into videos.","https://invideo.io/","📹"],
+["ElevenLabs","Audio & Music","AI voice generation, dubbing and audio tools.","https://elevenlabs.io/","🎙️"],
+["Suno","Audio & Music","Create songs and music with AI.","https://suno.com/","🎵"],
+["Udio","Audio & Music","AI music creation platform.","https://www.udio.com/","🎧"],
+["Murf AI","Audio & Music","AI voiceovers for videos and presentations.","https://murf.ai/","🔊"],
+["GitHub Copilot","Coding & Development","AI pair programmer for software development.","https://github.com/features/copilot","⌨️"],
+["Cursor","Coding & Development","AI-powered code editor and coding agent.","https://cursor.com/","🧑‍💻"],
+["Replit","Coding & Development","Build and deploy apps with AI assistance.","https://replit.com/","🚀"],
+["Bolt.new","Coding & Development","Build web applications from prompts.","https://bolt.new/","⚡"],
+["Lovable","Coding & Development","Create full-stack apps by describing your idea.","https://lovable.dev/","💜"],
+["Hugging Face","Coding & Development","Explore AI models, datasets and demos.","https://huggingface.co/","🤗"],
+["Google AI Studio","Coding & Development","Prototype with Google's Gemini models.","https://aistudio.google.com/","🧩"],
+["Grammarly","Writing & Productivity","Writing, grammar, tone and clarity assistant.","https://www.grammarly.com/","✍️"],
+["QuillBot","Writing & Productivity","Paraphrase, summarize and improve writing.","https://quillbot.com/","📝"],
+["Jasper","Writing & Productivity","AI content and marketing workflows.","https://www.jasper.ai/","📣"],
+["Notion AI","Writing & Productivity","AI writing, notes and workspace assistance.","https://www.notion.so/product/ai","📓"],
+["Gamma","Presentations","Create presentations, documents and webpages.","https://gamma.app/","📊"],
+["Beautiful.ai","Presentations","Create polished slides with smart layouts.","https://www.beautiful.ai/","✨"],
+["DeepL","Translation","AI-powered translation and writing assistance.","https://www.deepl.com/","🌍"],
+["Otter.ai","Meetings & Notes","Meeting transcription, notes and summaries.","https://otter.ai/","🦦"],
+["Fireflies.ai","Meetings & Notes","Record, transcribe and search meeting conversations.","https://fireflies.ai/","🔥"],
+["Zapier","Automation & Agents","Connect apps and automate workflows with AI.","https://zapier.com/","🔗"],
+["Make","Automation & Agents","Visual workflow automation platform.","https://www.make.com/","🧠"],
+["n8n","Automation & Agents","Build AI workflows and automations.","https://n8n.io/","⚙️"],
+["Manus","Automation & Agents","General AI agent for multi-step tasks.","https://manus.im/","🧭"],
+["ChatPDF","PDF & Documents","Ask questions and summarize PDF documents.","https://www.chatpdf.com/","📄"],
+["Humata","PDF & Documents","Chat with documents and extract insights.","https://www.humata.ai/","📑"],
+ ["Adobe Acrobat AI Assistant","PDF & Documents","Ask questions about PDFs and get document summaries.","https://www.adobe.com/acrobat/generative-ai-pdf.html","📕"],
+ ["Smallpdf AI","PDF & Documents","Work with PDF files and explore AI-powered document features.","https://smallpdf.com/","📎"],
+ ["PDF.ai","PDF & Documents","Chat with PDF documents and find information quickly.","https://pdf.ai/","📃"],
+ ["ChatDOC","PDF & Documents","Ask questions and extract information from documents.","https://chatdoc.com/","📂"],
+ ["Writesonic","Writing & Productivity","AI writing and content creation platform.","https://writesonic.com/","🖊️"],
+ ["Copy.ai","Writing & Productivity","AI-assisted writing and marketing content workflows.","https://www.copy.ai/","📋"],
+ ["Wordtune","Writing & Productivity","Rewrite, clarify and improve written text.","https://www.wordtune.com/","🪶"],
+ ["Rytr","Writing & Productivity","AI writing assistant for emails, blogs and other content.","https://rytr.me/","✏️"],
+ ["Anyword","Writing & Productivity","Create and evaluate marketing copy with AI.","https://www.anyword.com/","📢"],
+ ["Descript","Audio & Music","Edit audio and video using text-based tools.","https://www.descript.com/","🎚️"],
+ ["Adobe Podcast","Audio & Music","Browser-based tools for improving speech audio.","https://podcast.adobe.com/","🎙️"],
+ ["AIVA","Audio & Music","Create original music with an AI composition platform.","https://www.aiva.ai/","🎼"],
+ ["Soundraw","Audio & Music","Generate customizable music for creative projects.","https://soundraw.io/","🎹"],
+ ["Krisp","Audio & Music","AI noise cancellation and meeting audio tools.","https://krisp.ai/","🎧"],
+ ["VEED","Video Creation","Online video editor with AI-assisted video features.","https://www.veed.io/","🎥"],
+ ["Captions","Video Creation","AI-assisted video editing, captions and creator tools.","https://www.captions.ai/","💬"],
+ ["D-ID","Video Creation","Create AI-generated talking avatar videos.","https://www.d-id.com/","🗣️"],
+ ["Synthesia","Video Creation","Create AI avatar videos for learning and business.","https://www.synthesia.io/","👩‍🏫"],
+ ["OpusClip","Video Creation","Turn longer videos into short social clips with AI.","https://www.opus.pro/","✂️"],
+ ["Remove.bg","Image & Design","Remove image backgrounds automatically.","https://www.remove.bg/","🪄"],
+ ["Cleanup.pictures","Image & Design","Remove unwanted objects from images.","https://cleanup.pictures/","🧹"],
+ ["Clipdrop","Image & Design","AI image cleanup, relighting and creative tools.","https://clipdrop.co/","🖼️"],
+ ["Let's Enhance","Image & Design","Upscale and improve image quality online.","https://letsenhance.io/","🔍"],
+ ["Krea AI","Image & Design","Explore AI image generation and creative enhancement.","https://www.krea.ai/","🌟"],
+ ["Playground AI","Image & Design","Create and edit images with AI-powered tools.","https://playground.com/","🧩"],
+ ["Pixlr","Image & Design","Online photo editor with AI-powered editing features.","https://pixlr.com/","🌈"],
+ ["Wolfram|Alpha","Research & Search","Compute answers and explore structured knowledge.","https://www.wolframalpha.com/","➗"],
+ ["ResearchRabbit","Research & Search","Discover and organize related academic papers.","https://www.researchrabbit.ai/","🐇"],
+ ["scite","Research & Search","Explore research articles and citation context.","https://scite.ai/","🔬"],
+ ["Semantic Scholar","Research & Search","Search scientific literature with AI-assisted discovery.","https://www.semanticscholar.org/","📖"],
+ ["Phind","Research & Search","AI search assistant focused on technical questions.","https://www.phind.com/","💻"],
+ ["Blackbox AI","Coding & Development","AI coding assistant for programming and code search.","https://www.blackbox.ai/","⬛"],
+ ["Windsurf","Coding & Development","AI-powered development environment and coding assistant.","https://windsurf.com/","🏄"],
+ ["v0","Coding & Development","Generate user interfaces and frontend code from prompts.","https://v0.dev/","⚛️"],
+ ["Tabnine","Coding & Development","AI code completion and development assistance.","https://www.tabnine.com/","🧠"],
+ ["Sourcegraph Cody","Coding & Development","AI coding assistant for understanding and writing code.","https://sourcegraph.com/cody","🧑‍💻"],
+ ["Amazon Q Developer","Coding & Development","AI assistant for software development on AWS.","https://aws.amazon.com/q/developer/","☁️"],
+ ["Bardeen","Automation & Agents","Automate repetitive browser and work tasks.","https://www.bardeen.ai/","🤖"],
+ ["Lindy","Automation & Agents","Create AI assistants to help with everyday workflows.","https://www.lindy.ai/","🪄"],
+ ["Reclaim AI","Automation & Agents","AI scheduling and calendar time management.","https://reclaim.ai/","📅"],
+ ["Motion","Automation & Agents","AI-assisted task planning and calendar scheduling.","https://www.usemotion.com/","⏱️"],
+ ["Tome","Presentations","Create visual presentations and storytelling content.","https://tome.app/","📽️"],
+ ["SlidesAI","Presentations","Turn text into presentation slides with AI assistance.","https://www.slidesai.io/","📊"],
+ ["Plus AI","Presentations","Create and edit AI-assisted presentations in slide tools.","https://www.plusai.com/","➕"],
+ ["Prezi AI","Presentations","Create presentation drafts with AI-powered design features.","https://prezi.com/","🌀"],
+ ["LanguageTool","Translation","Grammar, spelling and style checking in multiple languages.","https://languagetool.org/","🌐"],
+ ["DeepL Write","Translation","Improve clarity, tone and phrasing in written text.","https://www.deepl.com/write","📝"],
+ ["Google Translate","Translation","Translate text and documents across languages.","https://translate.google.com/","🌍"],
+ ["Tactiq","Meetings & Notes","Capture meeting transcripts and generate AI summaries.","https://tactiq.io/","🗒️"],
+ ["tl;dv","Meetings & Notes","Record, transcribe and summarize online meetings.","https://tldv.io/","📹"],
+ ["Fathom","Meetings & Notes","AI meeting notes and searchable conversation summaries.","https://fathom.video/","🔎"],
+ ["Sembly AI","Meetings & Notes","Meeting transcription, notes and action items.","https://www.sembly.ai/","📝"],
+ ["Mixo","Website & Business","Generate a starter website from a short description.","https://www.mixo.io/","🌐"],
+ ["10Web","Website & Business","AI-assisted website creation and WordPress tools.","https://10web.io/","🕸️"],
+ ["Durable","Website & Business","Create a business website with AI assistance.","https://durable.co/","🏗️"],
+ ["Framer AI","Website & Business","Generate and design websites with AI features.","https://www.framer.com/ai/","🎨"],
+ ["LogoAI","Website & Business","Create logo concepts and brand assets with AI.","https://www.logoai.com/","🔰"],
+ ["Looka","Website & Business","Create brand identities and logo designs.","https://looka.com/","💠"],
+ ["Shopify Magic","Website & Business","AI features for product content and ecommerce workflows.","https://www.shopify.com/magic","🛍️"],
+ ["Kickresume","Career & Education","Create resumes and cover letters with AI assistance.","https://www.kickresume.com/","📄"],
+ ["Teal","Career & Education","Organize job searches and improve resume content.","https://www.tealhq.com/","💼"],
+ ["Quizlet","Career & Education","Study with flashcards and AI-assisted learning tools.","https://quizlet.com/","🧠"],
+ ["Khan Academy Khanmigo","Career & Education","AI-supported tutoring and learning assistance.","https://www.khanacademy.org/khan-labs","🎓"],
+ ["Explainpaper","Career & Education","Get help understanding difficult research papers.","https://www.explainpaper.com/","📚"],
+ ["Goblin.tools","Everyday Utilities","Break tasks into steps and simplify everyday planning.","https://goblin.tools/","🧰"]
+];
+const categories=["All",...new Set(tools.map(t=>t[1]))];
+let activeCategory="All", favoritesOnly=false;
+const grid=document.getElementById("toolGrid"), search=document.getElementById("searchInput");
+const savedFav=()=>{try{return JSON.parse(localStorage.getItem("aiHubFavorites")||"[]")}catch(e){return []}};
+let favorites=savedFav();
+function renderFilters(){
+ const box=document.getElementById("filters");box.innerHTML="";
+ categories.forEach(c=>{const b=document.createElement("button");b.className="chip"+(activeCategory===c?" active":"");b.textContent=c;b.onclick=()=>{activeCategory=c;favoritesOnly=false;document.getElementById("favoritesBtn").classList.remove("primary");renderFilters();renderTools()};box.appendChild(b)});
+}
+function renderTools(){
+ const q=search.value.trim().toLowerCase(), sort=document.getElementById("sortSelect").value;
+ let list=tools.filter(t=>(activeCategory==="All"||t[1]===activeCategory)&&(!favoritesOnly||favorites.includes(t[0]))&&(!q||t.join(" ").toLowerCase().includes(q)));
+ list.sort((a,b)=>sort==="za"?b[0].localeCompare(a[0]):a[0].localeCompare(b[0]));
+ document.getElementById("toolCount").textContent=tools.length;
+ document.getElementById("sectionTitle").textContent=favoritesOnly?"Your favorite tools":activeCategory==="All"?"Explore AI tools":activeCategory;
+ grid.innerHTML="";
+ if(!list.length){grid.innerHTML='<div class="empty"><strong>No tools found</strong>Search badlein, doosri category choose karein, ya favorites add karein.</div>';return}
+ list.forEach(t=>{
+  const card=document.createElement("article");card.className="tool";card.tabIndex=0;card.setAttribute("role","link");card.setAttribute("aria-label","Open "+t[0]+" website in a new tab");card.title="Open "+t[0]+" website";card.addEventListener("click",e=>{if(e.target.closest("button,a"))return;window.open(t[3],"_blank","noopener,noreferrer")});card.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&!e.target.closest("button,a")){e.preventDefault();window.open(t[3],"_blank","noopener,noreferrer")}});
+  const top=document.createElement("div");top.className="tooltop";
+  const ico=document.createElement("div");ico.className="toolicon";ico.textContent=t[4];
+  const fav=document.createElement("button");fav.className="fav"+(favorites.includes(t[0])?" on":"");fav.textContent=favorites.includes(t[0])?"★":"☆";fav.title="Toggle favorite";fav.setAttribute("aria-label","Favorite "+t[0]);
+  fav.onclick=()=>{favorites=favorites.includes(t[0])?favorites.filter(x=>x!==t[0]):[...favorites,t[0]];localStorage.setItem("aiHubFavorites",JSON.stringify(favorites));renderTools()};
+  top.append(ico,fav);
+  const title=document.createElement("h3");title.textContent=t[0];
+  const desc=document.createElement("p");desc.textContent=t[2];
+  const bottom=document.createElement("div");bottom.className="toolbottom";
+  const tag=document.createElement("span");tag.className="tag";tag.textContent=t[1];
+  const link=document.createElement("a");link.className="visit";link.href=t[3];link.target="_blank";link.rel="noopener noreferrer";link.textContent="Visit website ↗";
+  bottom.append(tag,link);card.append(top,title,desc,bottom);grid.appendChild(card);
+ });
+}
+document.getElementById("themeSelect").addEventListener("change",e=>{document.body.dataset.theme=e.target.value;localStorage.setItem("aiHubTheme",e.target.value)});
+const oldTheme=localStorage.getItem("aiHubTheme");if(oldTheme&&[...document.getElementById("themeSelect").options].some(o=>o.value===oldTheme)){document.body.dataset.theme=oldTheme;document.getElementById("themeSelect").value=oldTheme}
+search.addEventListener("input",renderTools);document.getElementById("searchBtn").onclick=renderTools;document.getElementById("sortSelect").onchange=renderTools;
+document.getElementById("favoritesBtn").onclick=()=>{favoritesOnly=!favoritesOnly;activeCategory="All";document.getElementById("favoritesBtn").classList.toggle("primary",favoritesOnly);renderFilters();renderTools()};
+renderFilters();renderTools();
+
+// About and Privacy pages are generated as long-form, readable sections.
+const aboutTopics = [
+ ["Our purpose","AI Tool.ARnc is a curated discovery directory that brings links to many independent artificial intelligence websites into one convenient place. Its purpose is to make exploration simpler: instead of remembering many separate addresses, visitors can browse a categorized collection, search by name or subject, and open the provider they want to explore."],
+ ["A directory, not an AI provider","This website is a directory and navigation aid. It does not create, own, operate, or guarantee the services listed in its cards. Each listed tool is provided by its own organization, and its features, rules, pricing, availability, and account requirements are controlled by that provider."],
+ ["Finding a useful tool","A good starting point is to identify the task before choosing a service. A visitor might need help with writing, research, images, video, audio, coding, presentations, translation, meeting notes, automation, documents, education, or everyday planning. The category filters help narrow the directory to a relevant group."],
+ ["Search and categories","The search field checks the information included with each directory entry, including its name, category, and short description. Category chips filter the visible cards, while the sort control arranges names alphabetically or in reverse order. These controls are intended to make a large collection easier to scan."],
+ ["Favorites and themes","The Favorites control lets a visitor mark entries for quick reference. Favorite selections are saved in the browser using local storage, so they are associated with that browser profile rather than a central account. Theme choices are also saved locally to make the interface more comfortable on a later visit."],
+ ["Opening provider websites","Every tool card includes a provider link. Visitors can open a service by selecting the card or its Visit website link. The destination is an external website, and its pages load under the provider's own domain and policies. A new tab helps keep this directory available for returning to the list."],
+ ["Using AI thoughtfully","AI systems can be useful for brainstorming, drafting, organizing, translating, coding, and exploring information. Their output can still contain mistakes, missing context, or outdated statements. Visitors should review important results, verify factual claims, and use their own judgment before relying on generated material."],
+ ["Independent services","The directory may include services from companies, research groups, open-source communities, and other independent providers. Inclusion is for discovery and convenience; it should not be read as a partnership, certification, endorsement, or guarantee of quality, security, suitability, or uninterrupted operation."],
+ ["Availability and pricing","A provider may change its free plan, paid plan, feature limits, regional availability, sign-in requirements, or terms at any time. The short descriptions on this website are general navigation hints, not a live price list or contractual offer. Always consult the provider's current official information before making a decision."],
+ ["Accessibility and ease of use","The interface is designed to keep the main directory straightforward. Cards, search, categories, favorites, and themes are intended to work on common desktop and mobile browsers. Screen size, browser settings, assistive technology, network quality, and third-party website design can affect the overall experience."],
+ ["Responsible exploration","Visitors should follow the rules of each provider and respect copyright, privacy, age requirements, and applicable laws. Do not upload confidential, personal, or sensitive material to an external AI service unless you understand its data practices and have permission to share that material."],
+ ["Accuracy and updates","A directory can become outdated as providers rename products, move pages, discontinue services, or introduce new features. The website owner may review and update entries, but cannot promise that every description or destination is always current. If a link does not work, check the provider's official homepage."],
+ ["Who may find it useful","Students may use the categories to discover study and explanation tools, creators may explore image and video services, developers may browse coding assistants, and professionals may compare writing or productivity options. The directory does not replace learning, professional advice, or careful evaluation."],
+ ["No account required for this directory","The current directory page does not present a registration or sign-in system. Search, category filtering, sorting, and locally saved favorites are provided in the browser. Some external providers may ask visitors to create their own accounts, and those accounts are separate from AI Tool.ARnc."],
+ ["Contact and feedback","Visitors can use the contact details shown in the Privacy section to report a broken link, suggest a correction, or send general feedback. Please avoid sending passwords, identity documents, payment information, or other confidential details in a general support message."],
+]
+const privacyTopics = [
+ ["Scope of this notice","This Privacy section explains the intended behavior of the AI Tool.ARnc directory page. It describes browser-side preferences, external links, and practical privacy considerations. It is not a statement on behalf of any listed provider. Each external service has its own privacy notice and data handling practices."],
+ ["No directory account","The current HTML directory does not provide user registration, login, profile creation, or a server-based account area. Visitors can browse the tool list without entering personal information into an account form on this page. If this website is later expanded, its privacy notice should be reviewed and updated."],
+ ["Browser local storage","The website uses browser local storage for two convenience features: remembering favorite tool names and remembering the selected color theme. This information remains in the browser profile on the visitor's device. It is not, by this page's code, sent to a directory account database."],
+ ["Favorites information","When a visitor selects a star, the chosen tool name is saved in a local browser entry used to display the Favorites view. The stored value is a list of tool names. Clearing site data or local storage in the browser may remove these preferences."],
+ ["Theme preference","When a visitor changes the theme, the selected theme name is saved locally so the interface can restore that appearance on a later visit. The saved theme is a display preference, not a profile, identity, or record of the visitor's activity on external websites."],
+ ["Search activity","The search box filters the tool entries already loaded into the page. The page's own search code compares the entered text with names, categories, and descriptions in the local directory data. The supplied HTML does not include a feature that submits search terms to an AI Tool.ARnc search server."],
+ ["External provider websites","Selecting a tool opens a website operated by another organization. That provider may collect information such as IP address, browser details, account information, usage data, cookies, prompts, uploaded files, or payment details according to its own systems and policies. Review its privacy notice before using it."],
+ ["Third-party terms","AI Tool.ARnc does not control the privacy, security, retention, or deletion practices of external providers. A link in the directory is not a promise that the destination is private or suitable for every type of information. Questions about an external account should be directed to that provider."],
+ ["Cookies and tracking","The supplied page code does not intentionally create advertising cookies or include an analytics tracker. However, the hosting platform, browser, security services, or external websites may use their own technologies. Hosting providers can also maintain technical logs under their own policies."],
+ ["Personal and sensitive information","Do not place passwords, bank details, government identification numbers, private correspondence, confidential work files, or sensitive personal information into an AI tool unless you have checked the provider's terms and have a lawful reason and permission to share it. Use the minimum information necessary."],
+ ["Children and young visitors","External AI services may have minimum age requirements, parental consent rules, or other restrictions. Visitors should follow the requirements that apply in their location and on each provider's website. Parents or guardians should guide younger users in choosing services and sharing information online."],
+ ["Data security limitations","No website or internet connection can promise absolute security. Visitors should keep browsers and devices updated, use strong unique passwords on external accounts, enable appropriate account protections, and avoid using shared devices for sensitive activity. The directory itself does not manage provider passwords."],
+ ["Data retention","The directory's local favorites and theme preference remain in browser storage until changed or cleared by the visitor or browser. The directory page does not provide a remote account record from which it can retrieve or delete a visitor's external provider data. External retention periods are set by each provider."],
+ ["Your browser controls","Visitors can use browser settings to inspect or clear site data, including local storage. Clearing that data may reset favorites and theme preferences. Private browsing, device sharing, browser synchronization, and extensions may change how local information is stored or retained."],
+ ["Contact messages","If you contact the website owner by email or telephone, the information you choose to provide may be used to understand and respond to your question. Do not send confidential information unnecessarily. Email and mobile networks are operated by third parties and may process message metadata."],
+ ["Changes to this notice","This notice may be revised when the website's features, hosting arrangements, or contact process change. The date or version of a notice can be updated on the website. Visitors should review this section periodically, especially before using a newly introduced feature."],
+ ["No sale of directory data by page code","The supplied HTML does not contain a feature that sells visitor information or transmits the favorites list to an advertising network. This statement describes the code provided for this directory; it cannot make claims about separate hosting infrastructure, browser extensions, or third-party websites."],
+ ["External links and responsibility","Links are provided to help visitors reach independent services. Once a visitor leaves AI Tool.ARnc, the destination's policies and security controls apply. Check the domain carefully, avoid suspicious downloads, and do not assume that a provider is endorsed simply because its link appears in this directory."],
+]
+function buildLongPage(topics, targetWords){
+ const extras = [
+  "Visitors should read the provider's own documentation and make a choice that fits their needs, budget, location, and comfort level.",
+  "Descriptions are intentionally brief so that the directory remains easy to scan; they are not a substitute for official product information.",
+  "A careful review before sharing information or making a purchase helps prevent misunderstandings and supports safer online decisions.",
+  "The website aims to offer clear navigation while leaving service operation and account decisions with the independent provider.",
+  "If a feature behaves differently in a particular browser, refreshing the page or checking browser permissions may help identify the cause.",
+  "The owner may correct wording or links over time, but visitors should independently confirm important details with the relevant organization.",
+  "This explanation is intended to be practical and transparent rather than to promise outcomes that the website cannot control."
+ ];
+ let parts=[], total=0, index=0;
+ while(total<targetWords){
+  const topic=topics[index%topics.length];
+  let paragraph=topic[1]+" "+extras[index%extras.length]+" "+extras[(index+3)%extras.length];
+  let words=paragraph.trim().split(/\s+/);
+  const remaining=targetWords-total;
+  if(words.length>remaining) words=words.slice(0,remaining);
+  parts.push('<h3>'+topic[0]+'</h3><p>'+escapeHTML(words.join(' '))+'</p>');
+  total+=words.length; index++;
+ }
+ return parts.join('');
+}
+function escapeHTML(value){return value.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+const aboutHTML=buildLongPage(aboutTopics,5000);
+const privacyHTML=buildLongPage(privacyTopics,4000)+
+ '<h3>Contact us</h3><p><strong>Contact us:- Website: AI Tool.ARnc<br>Privacy / Support Email: <a href="mailto:subham99209114@gmail.com">subham99209114@gmail.com</a><br>Contact no: <a href="tel:7544095688">7544095688</a></strong></p>';
+const overlay=document.getElementById('infoOverlay'), infoTitle=document.getElementById('infoTitle'), infoContent=document.getElementById('infoContent');
+function openInfo(which){infoTitle.textContent=which==='about'?'About AI Tool.ARnc':'Privacy Policy';infoContent.innerHTML=which==='about'?aboutHTML:privacyHTML;overlay.classList.add('open');document.body.style.overflow='hidden';infoContent.scrollTop=0;}
+function closeInfo(){overlay.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('aboutOpen').addEventListener('click',()=>openInfo('about'));
+document.getElementById('privacyOpen').addEventListener('click',()=>openInfo('privacy'));
+document.getElementById('infoClose').addEventListener('click',closeInfo);
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeInfo()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))closeInfo()});
+
+</script></body></html>
